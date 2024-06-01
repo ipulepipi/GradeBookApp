@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GradeBookApp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+    <script>
+        function getAverage(scores) {
+            let sum = 0;
+
+            for (const score of scores) {
+                sum += score;
+            }
+
+            return sum / scores.length;
+        }
+
+        function getGrade(score) {
+            if (score === 100) {
+                return "A++";
+            } else if (score >= 90) {
+                return "A";
+            } else if (score >= 80) {
+                return "B";
+            } else if (score >= 70) {
+                return "C";
+            } else if (score >= 60) {
+                return "D";
+            } else {
+                return "F";
+            }
+        }
+
+        function hasPassingGrade(score) {
+            return getGrade(score) !== "F";
+        }
+
+        function studentMsg(totalScores, studentScore) {
+            const classAverage = getAverage(totalScores);
+            const studentGrade = getGrade(studentScore);
+            const pass = hasPassingGrade(studentScore);
+            if (pass) {
+                return `Class average: ${classAverage.toFixed(2)}. Your grade: ${studentGrade}. You passed the course.`;
+            } else {
+                return `Class average: ${classAverage.toFixed(2)}. Your grade: ${studentGrade}. You failed the course.`;
+            }
+        }
+
+        function calculateGrades() {
+            const classScores = document.getElementById('classScores').value.split(',').map(Number);
+            const studentScore = Number(document.getElementById('studentScore').value);
+            const resultMsg = studentMsg(classScores, studentScore);
+            document.getElementById('result').innerText = resultMsg;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>GradeBookApp</h1>
+        <p>Enjoy using the grade book app I have created using JavaScript, HTML, and CSS.</p>
+        
+        <form onsubmit="event.preventDefault(); calculateGrades();">
+            <label for="classScores">Class Scores (comma-separated):</label>
+            <input type="text" id="classScores" name="classScores">
+            
+            <label for="studentScore">Student Score:</label>
+            <input type="number" id="studentScore" name="studentScore">
+            
+            <input type="submit" value="Calculate">
+        </form>
+
+        <p id="result"></p>
+        <p>Created by Ipule PIpi 2024</p>
+    </div>
+</body>
+</html>
